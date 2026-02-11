@@ -36,5 +36,5 @@ https://you-giql.onrender.com/
 
 ---
 
-## 📁 Project Structure
+
 
