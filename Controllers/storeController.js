@@ -1,7 +1,8 @@
 const Home = require("../models/home");
-const Booking = require("../models/booking")
+const Booking = require("../models/booking");
 const path = require("path");
 const fs = require("fs/promises");
+
 
 /* ---------------- HOME LIST ---------------- */
 exports.getHomes = async (req, res) => {
@@ -24,6 +25,9 @@ exports.getHomes = async (req, res) => {
     pageTitle: "Home List"
   });
 };
+
+
+/* ---------------- INDEX PAGE ---------------- */
 exports.getIndex = async (req, res) => {
   const dataPath = path.join(__dirname, "../data/wishlist.json");
 
@@ -45,23 +49,20 @@ exports.getIndex = async (req, res) => {
   });
 };
 
+
 /* ---------------- ADD TO FAVOURITE ---------------- */
 exports.getFavouriteList = async (req, res, next) => {
   try {
     const homeId = req.params.id;
-
-    // 1️⃣ Get the clicked home
     const home = Home.findById(homeId);
+
     if (!home) {
       return res.status(404).send("Home not found");
     }
 
-    // 2️⃣ Wishlist file path
     const dataPath = path.join(__dirname, "../data/wishlist.json");
 
     let wishlist = [];
-
-    // 3️⃣ Read wishlist safely
     try {
       const fileContent = await fs.readFile(dataPath, "utf-8");
       wishlist = JSON.parse(fileContent);
@@ -70,30 +71,25 @@ exports.getFavouriteList = async (req, res, next) => {
       wishlist = [];
     }
 
-    // 4️⃣ Check if already favourite
     const isAlreadyFavourite = wishlist.some(
       item => item && item.id === homeId
     );
 
-    // 5️⃣ Add only if not present
     if (!isAlreadyFavourite) {
       wishlist.push(home);
     }
 
-    // 6️⃣ Save wishlist
     await fs.writeFile(
       dataPath,
       JSON.stringify(wishlist, null, 2)
     );
 
-    // 7️⃣ Go back to SAME page
     res.redirect(req.get("referer"));
 
   } catch (error) {
     next(error);
   }
 };
-
 
 
 /* ---------------- HOME DETAILS ---------------- */
@@ -105,12 +101,14 @@ exports.getHomeDetails = (req, res) => {
     return res.status(404).send("Home not found");
   }
 
+  // 🔥 IMPORTANT FIX — Always send booking
   res.render("store/home-detail", {
     home,
-    homeId,
+    booking: null,
     pageTitle: "Home Details"
   });
 };
+
 
 /* ---------------- WISHLIST PAGE ---------------- */
 exports.getWishlist = async (req, res) => {
@@ -131,26 +129,52 @@ exports.getWishlist = async (req, res) => {
   });
 };
 
-exports.getBookingform = async (req,res)=>{
-  
+
+/* ---------------- BOOKING FORM ---------------- */
+exports.getBookingform = (req, res) => {
   const homeId = req.params.id;
-    const home =  Home.findById(homeId)
-      
+  const home = Home.findById(homeId);
 
-  res.render("store/bookingform",{home, pageTitle:" My Bookings"});
+  if (!home) {
+    return res.status(404).send("Home not found");
   }
 
-  exports.postBookings =  (req,res)=>{
-  // res.render("store/bookings",{pageTitle:" My Bookings"})
- 
-  const {date, days,persons,id} = req.body;
-     const home =  Home.findById(id)
-  const booking = new Booking(date,days,persons,id)
-  booking.save()
-  console.log(booking) 
+  res.render("store/bookingform", {
+    home,
+    pageTitle: "My Bookings"
+  });
+};
 
-res.render("store/bookings",{home,booking,pageTitle:"my bookings"})
+
+/* ---------------- POST BOOKING ---------------- */
+exports.postBookings = (req, res) => {
+
+  const { date, days, persons, id } = req.body;
+
+  const home = Home.findById(id);
+
+  if (!home) {
+    return res.status(404).send("Home not found");
   }
+
+  // Convert days & persons safely
+  const safeDays = Number(days) || 1;
+  const safePersons = Number(persons) || 1;
+
+  const booking = new Booking(date, safeDays, safePersons, id);
+
+  booking.save();
+
+  console.log("Booking Saved:", booking);
+
+  // Render page with booking data
+  res.render("store/bookings", {
+    home,
+    booking,
+    pageTitle: "My Bookings"
+  });
+};
+
 
 
 
