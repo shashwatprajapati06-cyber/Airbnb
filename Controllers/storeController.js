@@ -174,8 +174,3 @@ exports.postBookings = (req, res) => {
     pageTitle: "My Bookings"
   });
 };
-
-
-
-
-

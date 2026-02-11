@@ -3,7 +3,7 @@ const app = express();
 const path = require("path");
 
 const storeRouter = require("./routes/storeRouter");
-const hostRouter = require("./routes/HostRouter");
+const hostRouter = require("./routes/hostRouter");
 
 app.set("view engine", "ejs");
 app.set("views", "views");
