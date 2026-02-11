@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Home to Airbnb</title>
+    <link rel="stylesheet" href="/output.css">
+</head>
+<body class="bg-white">
+    <header class="bg-white border-b border-gray-200 py-4 px-6 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <h1 class="text-2xl font-bold text-rose-500">airbnb</h1>
+            <nav class="flex gap-8 text-sm font-medium text-gray-700">
+                <a href="/" class="hover:text-gray-900 transition">Home</a>
+                <a href="/host/add-home" class="hover:text-gray-900 transition">Become a Host</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-2xl mx-auto">
+            <div class="text-center mb-12">
+                <h1 class="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">It's easy to get started on Airbnb</h1>
+                <p class="text-lg text-gray-600">List your home and start earning today</p>
+            </div>
+
+            <form action="/host/add-home" method="POST" class="bg-white rounded-2xl shadow-lg p-8 space-y-8">
+                <div class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-900 mb-3">Home Name</label>
+                        <input type="text" name="homeName" placeholder="Enter the house name" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent text-gray-900 placeholder-gray-400"/>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-900 mb-3">Price Per Night</label>
+                            <div class="relative">
+                                <span class="absolute left-4 top-3 text-gray-500 font-semibold">Rs</span>
+                                <input type="number" name="price" placeholder="0" required class="w-full pl-8 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent text-gray-900"/>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-900 mb-3">Rating (0-5)</label>
+                            <input type="number" name="rating" placeholder="0.0" step="0.1" min="0" max="5" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent text-gray-900"/>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-900 mb-3">Location</label>
+                        <input type="text" name="location" placeholder="City, Country" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent text-gray-900 placeholder-gray-400"/>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-900 mb-3">Photo URL</label>
+                        <input type="url" name="photoUrl" placeholder="https://example.com/photo.jpg" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent text-gray-900 placeholder-gray-400"/>
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full bg-rose-500 hover:bg-rose-600 text-white font-bold py-3 px-6 rounded-lg transition duration-200 shadow-md hover:shadow-lg active:scale-95">
+                    Continue
+                </button>
+            </form>
+        </div>
+    </main>
+</body>
+</html>
