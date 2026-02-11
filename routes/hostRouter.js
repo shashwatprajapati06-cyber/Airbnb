@@ -1,7 +1,7 @@
 const express = require('express');
 const hostRouter = express.Router();
 
-const { getAddHome, postAddHome , getHostHomes} = require('../controllers/hostController');
+const { getAddHome, postAddHome , getHostHomes} = require("../controller/ hostcontroller");
 
 hostRouter.get('/add-home', getAddHome);
 hostRouter.post('/add-home', postAddHome);
